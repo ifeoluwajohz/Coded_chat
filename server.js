@@ -9,7 +9,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
     cors: {
-        origin: ['http://localhost:8080'], // Update with your frontend URL
+        origin: ['https://coded-chat.vercel.app/', '*'], // Update with your frontend URL
         methods: ['GET', 'POST'],
         allowedHeaders: ['Content-Type'],
     }
