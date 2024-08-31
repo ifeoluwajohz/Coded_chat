@@ -16,7 +16,7 @@ const io = new Server(server, {
 });
 
 app.use(cors({
-    origin: 'http://localhost:8080', // Update with your frontend URL
+    origin: '*', // Update with your frontend URL
     methods: ['GET', 'POST'],
 }));
 

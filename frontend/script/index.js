@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const messagesContainer = document.getElementById('messages');
     const adminMessage = document.getElementById("adminMessage")
   
-    const socket = io('http://localhost:3000');
+    const socket = io('https://coded-chat.onrender.com/');
     // socket.on('connect', () => {
     //   adminMessage.textContent = `You are connected with id ${socket.id}`
     // })
