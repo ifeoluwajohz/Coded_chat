@@ -1,60 +1,52 @@
-const io = require('socket.io')(3000, {
+const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
+const cors = require('cors');
+
+const app = express();
+const server = http.createServer(app);
+
+// Set up CORS to allow requests from your frontend
+const io = new Server(server, {
     cors: {
-        origin: ['http://localhost:8080'] // Update with your frontend URL
+        origin: ['http://localhost:8080'], // Update with your frontend URL
+        methods: ['GET', 'POST'],
+        allowedHeaders: ['Content-Type'],
     }
 });
 
-io.on("connection", socket => {
+app.use(cors({
+    origin: 'http://localhost:8080', // Update with your frontend URL
+    methods: ['GET', 'POST'],
+}));
+
+// Serve static files from the "public" directory
+app.use(express.static('public'));
+
+io.on("connection", (socket) => {
     console.log(`${socket.id} connected`);
 
     socket.on('joinRoom', ({ username, state }) => {
         socket.join(state);
 
-        //sends  message to everyone in the group except the sender
+        // Sends a message to everyone in the group except the sender
         socket.to(state).emit('message', { username: 'Admin', message: `${username} has joined ${state}.` });
-
     });
 
-    socket.on('chatMessage', ({ username, message, state}) => {
+    socket.on('chatMessage', ({ username, message, state }) => {
         io.to(state).emit('message', { username, message });
     });
 
-    socket.on('disconnect', ({ username, state }) => {
+    socket.on('disconnect', () => {
         console.log(`${socket.id} disconnected`);
 
         // Notify all clients in all rooms that a user has left
-        socket.to(state).emit('message', { username: 'Admin', message: `${username} has joined the room.` });
+        socket.broadcast.emit('message', { username: 'Admin', message: 'A user has disconnected.' });
     });
 });
 
-
-// io.on('connection', socket => {
-//     console.log('New user connected:', socket.id);
-
-//     // Join a room
-//     socket.on('joinRoom', ({ username, room }) => {
-//         socket.join(room);
-//         socket.username = username;
-//     });
-
-//     // Handle chat messages
-//     socket.on('chatMessage', ({ room, message }) => {
-//         io.to(room).emit('message', { username: socket.username, message });
-//     });
-
-//     // Handle private messages
-//     socket.on('privateMessage', ({ recipient, message }) => {
-//         const recipientSocket = Array.from(io.sockets.sockets).find(([id, s]) => s.username === recipient);
-
-//         if (recipientSocket) {
-//             const recipientSocketId = recipientSocket[0];
-//             io.to(recipientSocketId).emit('message', { username: socket.username, message });
-//         } else {
-//             socket.emit('message', { username: 'System', message: `User ${recipient} is not online.` });
-//         }
-//     });
-
-//     socket.on('disconnect', () => {
-//         console.log('User disconnected:', socket.id);
-//     });
-// });
+// Start the server
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
