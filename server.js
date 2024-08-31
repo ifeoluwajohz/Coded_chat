@@ -2,11 +2,11 @@ const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 const server = http.createServer(app);
 
-// Set up CORS to allow requests from your frontend
 const io = new Server(server, {
     cors: {
         origin: ['http://localhost:8080'], // Update with your frontend URL
@@ -20,16 +20,15 @@ app.use(cors({
     methods: ['GET', 'POST'],
 }));
 
-// Serve static files from the "public" directory
-app.use(express.static('public'));
+// Serve static files from Snowpack's build directory
+app.use(express.static(path.join(__dirname, 'build')));
 
+// Handle socket.io connections
 io.on("connection", (socket) => {
     console.log(`${socket.id} connected`);
 
     socket.on('joinRoom', ({ username, state }) => {
         socket.join(state);
-
-        // Sends a message to everyone in the group except the sender
         socket.to(state).emit('message', { username: 'Admin', message: `${username} has joined ${state}.` });
     });
 
@@ -39,8 +38,6 @@ io.on("connection", (socket) => {
 
     socket.on('disconnect', () => {
         console.log(`${socket.id} disconnected`);
-
-        // Notify all clients in all rooms that a user has left
         socket.broadcast.emit('message', { username: 'Admin', message: 'A user has disconnected.' });
     });
 });
