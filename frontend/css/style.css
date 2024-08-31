@@ -1,0 +1,149 @@
+/* body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label, input, select, button {
+  margin-bottom: 10px;
+  width: 100%;
+  max-width: 300px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+input[type="text"], select {
+  font-size: 16px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:active {
+  background-color: #0056b3;
+  transform: translateY(1px);
+}
+
+#messages {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  max-height: 300px;
+  overflow-y: auto;
+} */
+
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label {
+  margin-bottom: 10px;
+}
+
+input, select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0069d9;
+}
+
+#adminMessage{
+  text-align: center;
+  font-size: 14px;
+  color: #979595;
+}
+
+
+/* Container for the messages */
+/* Container for the messages */
+#messages {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* Common styles for all messages */
+.message {
+  margin: 5px;
+  padding: 10px;
+  border-radius: 8px;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+
+/* Styling for sent messages */
+.message.sent {
+  align-self: flex-end;
+  background-color: #dcf8c6; /* Light green background */
+  text-align: right;
+}
+
+/* Styling for received messages */
+.message.received {
+  align-self: flex-start;
+  background-color: #f1f0f0; /* Light gray background */
+  text-align: left;
+}

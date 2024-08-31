@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/style.css">
+  <title>LetChat</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome To LetChat</h1>
+    <div>
+      <form id="join-form">
+        <label for="username">Your username</label>
+        <input type="text" required id="username" placeholder="Enter Your Preferred Username Here...">
+        <select name="group" required id="state">
+          <option value="General_public">General_public</option>
+          <option value="Lagos_state">Lagos_state</option>
+          <option value="Benue_state">Benue_state</option>
+          <option value="Delta_state">Delta_state</option>
+          <option value="Oyo_state">Oyo_state</option>
+        </select>
+        <button id="Join_state" type="submit">Join state</button>
+      </form>
+      <p>Or private chat? <a href="./private.html">private chat</a></p>
+    </div>
+  </div>
+
+  <script type="module" src="./script/index.js"></script>
+</body>
+</html>
