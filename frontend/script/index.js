@@ -5,12 +5,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const messageForm = document.getElementById('messageForm');
     const messageInput = document.getElementById('messageInput');
     const messagesContainer = document.getElementById('messages');
-    const adminMessage = document.getElementById("adminMessage")
+    const adminMessage = document.getElementById("adminMessage");
   
-    const socket = io('https://coded-chat.onrender.com/');
-    // socket.on('connect', () => {
-    //   adminMessage.textContent = `You are connected with id ${socket.id}`
-    // })
+    // Determine the environment (development or production)
+    const isProduction = window.location.hostname !== 'localhost';
+    const socketUrl = isProduction ? 'https://your-production-server.com' : 'http://localhost:3000';
+
+    const socket = io(socketUrl);
 
     // Handle form submission on index.html (join form)
     if (joinForm) {
@@ -18,16 +19,13 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const username = document.getElementById('username').value.trim();
             const state = document.getElementById('state').value.trim();
-            // const statename = document.getElementById(")
 
             if (username && state) {
                 // Emit joinRoom event to the server
                 socket.emit('joinRoom', { username, state });
 
-
                 // Redirect to chat.html with query parameters
                 window.location.href = `chat.html?username=${username}&state=${state}`;
-                statename.innerHTML === `Group ${state}`
             }
         });
     }
@@ -45,8 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Emit joinRoom event on chat page load
         socket.emit('joinRoom', { username, state }, 
-      adminMessage.textContent = `You are connected as ${username}`
-
+          adminMessage.textContent = `You are connected as ${username}`
         );
 
         // Listen for incoming messages from the server
@@ -54,9 +51,9 @@ document.addEventListener('DOMContentLoaded', function() {
             displayMessage(data.username, data.message);
         });
 
-        socket.on('disconnect', function(data){
-          displayMessage(data.username, data.message)
-        })
+        socket.on('disconnect', function(data) {
+          displayMessage(data.username, data.message);
+        });
 
         messageForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -73,24 +70,19 @@ document.addEventListener('DOMContentLoaded', function() {
         function displayMessage(messageUsername, message) {
             const messageElement = document.createElement('div');
         
-            // Check if the message is sent by the current user
             if (messageUsername === username) {
                 messageElement.className = 'message sent';
                 messageElement.innerHTML = ` ${message} `;
             } else {
                 messageElement.className = 'message received';
-            messageElement.innerHTML = `<strong>${messageUsername}</strong>: ${message}`;
-
+                messageElement.innerHTML = `<strong>${messageUsername}</strong>: ${message}`;
             }
-        
-            // Set the content of the message
-        
+
             // Append the message to the messages container
             messagesContainer.appendChild(messageElement);
-        
+
             // Scroll to the bottom of the container
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
-        
     }
 });
